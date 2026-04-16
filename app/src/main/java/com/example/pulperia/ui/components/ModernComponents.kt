@@ -2,6 +2,8 @@ package com.example.pulperia.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -62,5 +64,35 @@ private fun DetailItem(label: String, value: String) {
     ) {
         Text(label, color = Color.Gray, fontSize = 14.sp)
         Text(value, fontWeight = FontWeight.Bold, color = Color.Black)
+    }
+}
+
+// Añade esta función al final de ModernComponents.kt
+@Composable
+fun ModernSuccessBanner(message: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9)), // Verde pastel muy suave
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.CheckCircle,
+                contentDescription = "Éxito",
+                tint = Color(0xFF2E7D32) // Verde oscuro vibrante
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = message,
+                color = Color(0xFF2E7D32),
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }

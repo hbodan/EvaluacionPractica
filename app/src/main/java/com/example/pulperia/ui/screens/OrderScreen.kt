@@ -13,9 +13,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tuempresa.pulperia.model.Order
-import com.tuempresa.pulperia.ui.components.ModernInput
-import com.tuempresa.pulperia.ui.components.OrderResultCard
+import com.example.pulperia.model.Order
+import com.example.pulperia.ui.components.ModernInput
+import com.example.pulperia.ui.components.OrderResultCard
+import kotlinx.coroutines.delay
 
 @Composable
 fun OrderScreen() {
@@ -24,6 +25,17 @@ fun OrderScreen() {
     var product by remember { mutableStateOf("") }
     var qty by remember { mutableStateOf("") }
     var lastOrder by remember { mutableStateOf<Order?>(null) }
+
+    // Nuevo estado para controlar la visibilidad del mensaje
+    var showSuccess by remember { mutableStateOf(false) }
+
+    // Temporizador: Se ejecuta cada vez que showSuccess cambia a true
+    LaunchedEffect(showSuccess) {
+        if (showSuccess) {
+            delay(3000) // Espera 3 segundos
+            showSuccess = false // Oculta el mensaje
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -51,6 +63,12 @@ fun OrderScreen() {
             onClick = {
                 if(name.isNotBlank() && product.isNotBlank()) {
                     lastOrder = Order(clientName = name, productName = product, quantity = qty)
+                    showSuccess = true
+
+                    // Opcional: Limpiamos los campos para el siguiente pedido
+                    name = ""
+                    product = ""
+                    qty = ""
                 }
             },
             modifier = Modifier.fillMaxWidth().height(60.dp),
